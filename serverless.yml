@@ -1,0 +1,62 @@
+service: appsync-expanse-apis-demo
+frameworkVersion: "2"
+
+plugins:
+  - serverless-appsync-plugin
+package:
+ individually: false
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: dev
+  region: ap-south-1
+  lambdaHashingVersion: 20201221
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:            
+        - "dynamodb:PutItem"
+        - "dynamodb:UpdateItem"
+        - "dynamodb:DeleteItem"
+        - "dynamodb:GetItem"
+        - "dynamodb:Scan"
+      Resource: "*"
+
+custom:      
+  EXPENSE_TABLE: expanse-table
+
+  appSync:
+    name: appsync-expanse-apis-demo
+    authenticationType: API_KEY
+    mappingTemplates:      
+      - type: Mutation
+        field: createExpense
+        dataSource: createExpenseFunction
+        request: false
+        response: false
+    
+    dataSources:        
+      - type: AWS_LAMBDA
+        name: createExpenseFunction
+        config:
+          functionName: createExpense
+                 
+
+functions: 
+  createExpense:
+    handler: functions/createExpense.handler
+    environment:
+      EXPENSE_TABLE_NAME: !Ref ExpenseTable
+
+resources:
+  Resources:
+    ExpenseTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.EXPENSE_TABLE}
