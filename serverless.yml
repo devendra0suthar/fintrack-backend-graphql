@@ -33,17 +33,30 @@ custom:
         dataSource: createExpenseFunction
         request: false
         response: false
+      - type: Query
+        field: getExpense 
+        dataSource: getExpenseFunction
+        request: false
+        response: false  
     
     dataSources:        
       - type: AWS_LAMBDA
         name: createExpenseFunction
         config:
           functionName: createExpense
+      - type: AWS_LAMBDA
+        name: getExpenseFunction
+        config:
+          functionName: getExpense    
                  
 
 functions: 
   createExpense:
     handler: functions/createExpense.handler
+    environment:
+      -
+  getExpense:
+    handler: functions/getExpense.handler
     environment:
       EXPENSE_TABLE_NAME: !Ref ExpenseTable
 

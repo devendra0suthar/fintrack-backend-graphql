@@ -15,11 +15,11 @@ type Mutation {
 
 
 type Save {
-    date: String!
-    amount: Int!
-    reciept: String!
-    categoryId: String!
-    userId: String!
+    date: String
+    amount: Int
+    reciept: String
+    categoryId: String
+    userId: String
 }
 type Get {
     date: String!

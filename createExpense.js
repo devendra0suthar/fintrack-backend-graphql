@@ -34,21 +34,21 @@ module.exports.handler = async (event) => {
         ReturnConsumedCapacity: "TOTAL",
         TableName: process.env.EXPENSE_TABLE_NAME
     }
-
+    console.log({
+        date,
+        amount,
+        reciept,
+        categoryId,
+        userId
+    })
     return dynamodb.putItem(params).promise()
         .then(data => {
             return {
-                data: {
-                    id,
-                    date,
-                    amount,
-                    reciept,
-                    categoryId,
-                    userId
-                },
-                description: "",
-                status: true
-
+                date,
+                amount,
+                reciept,
+                categoryId,
+                userId
             }
         })
         .catch(err => {
