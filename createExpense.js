@@ -9,7 +9,7 @@ module.exports.handler = async (event) => {
     const amount = event.arguments.amount
     const categoryId = event.arguments.categoryId
     const userId = event.arguments.userId
-
+    const createdAt = Date()
     const params = {
         Item: {
             "id": {
@@ -29,6 +29,9 @@ module.exports.handler = async (event) => {
             },
             "userId": {
                 S: userId
+            },
+            "createdAt": {
+                S: createdAt
             }
         },
         ReturnConsumedCapacity: "TOTAL",

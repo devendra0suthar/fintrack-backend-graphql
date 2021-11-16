@@ -11,6 +11,7 @@ type Query {
 
 type Mutation {
     createExpense( date: String!, amount: Int!, reciept: String!, categoryId: String!, userId: String!): Save
+    imageText(bucket: String!,key: String!): ImageText
 }
 
 
@@ -20,6 +21,9 @@ type Save {
     reciept: String
     categoryId: String
     userId: String
+}
+type ImageText {
+    total: String!
 }
 type Get {
     date: String!

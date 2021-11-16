@@ -33,8 +33,13 @@ custom:
         dataSource: createExpenseFunction
         request: false
         response: false
+      - type: Mutation
+        field: imageText
+        dataSource: imageTextFunction
+        request: false
+        response: false
       - type: Query
-        field: getExpense 
+        field: getTodos
         dataSource: getExpenseFunction
         request: false
         response: false  
@@ -48,17 +53,23 @@ custom:
         name: getExpenseFunction
         config:
           functionName: getExpense    
+      - type: AWS_LAMBDA
+        name: imageTextFunction
+        config:
+          functionName: imageText    
                  
 
 functions: 
   createExpense:
     handler: functions/createExpense.handler
     environment:
-      -
+      EXPENSE_TABLE_NAME: !Ref ExpenseTable
   getExpense:
     handler: functions/getExpense.handler
     environment:
       EXPENSE_TABLE_NAME: !Ref ExpenseTable
+  imageText:
+    handler: imageText.handler
 
 resources:
   Resources:
