@@ -23,6 +23,7 @@ provider:
 
 custom:      
   EXPENSE_TABLE: expanse-table
+  CATEGORY_TABLE: category-table
 
   appSync:
     name: appsync-expanse-apis-demo
@@ -31,6 +32,11 @@ custom:
       - type: Mutation
         field: createExpense
         dataSource: createExpenseFunction
+        request: false
+        response: false
+      - type: Mutation
+        field: createCategory
+        dataSource: createCategoryFunction
         request: false
         response: false
       - type: Mutation
@@ -50,6 +56,10 @@ custom:
         config:
           functionName: createExpense
       - type: AWS_LAMBDA
+        name: createCategoryFunction
+        config:
+          functionName: createCategory
+      - type: AWS_LAMBDA
         name: getExpenseFunction
         config:
           functionName: getExpense    
@@ -64,10 +74,14 @@ functions:
     handler: functions/createExpense.handler
     environment:
       EXPENSE_TABLE_NAME: !Ref ExpenseTable
+  createCategory:
+    handler: functions/createCategory.handler
+    environment:
+      EXPENSE_TABLE_NAME: !Ref ExpenseTable
   getExpense:
     handler: functions/getExpense.handler
     environment:
-      EXPENSE_TABLE_NAME: !Ref ExpenseTable
+      CATEGORY_TABLE_NAME: !Ref CategoryTable
   imageText:
     handler: imageText.handler
 
@@ -84,3 +98,14 @@ resources:
             AttributeType: S
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:custom.EXPENSE_TABLE}
+    CategoryTable:
+      Type: "AWS::DynamoDB::Table"
+      Properties:
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        BillingMode: PAY_PER_REQUEST
+        TableName: ${self:custom.CATEGORY_TABLE}

@@ -10,8 +10,10 @@ type Query {
 
 
 type Mutation {
-    createExpense( date: String!, amount: Int!, reciept: String!, categoryId: String!, userId: String!): Save
+    createExpense( date: String, amount: Int!, reciept: String!, categoryId: String!, userId: String!): Save
+    createCategory( name: String!, userId: String!, isCreatedByUser: String!): SaveCategory
     imageText(bucket: String!,key: String!): ImageText
+
 }
 
 
@@ -21,6 +23,11 @@ type Save {
     reciept: String
     categoryId: String
     userId: String
+}
+type SaveCategory {
+    name: String
+    userId: Int
+    isCreatedByUser: String
 }
 type ImageText {
     total: String!

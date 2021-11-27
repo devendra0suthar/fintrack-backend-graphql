@@ -5,10 +5,8 @@ const { v4: uuidv4 } = require('uuid');
 module.exports.handler = async (event) => {
     console.log(event.arguments)
     const id = uuidv4()
-    const reciept = event.arguments.reciept
-    const date = event.arguments.date
-    const amount = event.arguments.amount
-    const categoryId = event.arguments.categoryId
+    const name = event.arguments.name
+    const isCreatedByUser = event.arguments.isCreatedByUser
     const userId = event.arguments.userId
     const createdAt = Date()
     const params = {
@@ -16,17 +14,11 @@ module.exports.handler = async (event) => {
             "id": {
                 S: id
             },
-            "date": {
-                S: date
+            "name": {
+                S: name
             },
-            "amount": {
-                N: amount.toString()
-            },
-            "reciept": {
-                S: reciept
-            },
-            "categoryId": {
-                S: categoryId
+            "isCreatedByUser": {
+                S: isCreatedByUser
             },
             "userId": {
                 S: userId
@@ -36,23 +28,15 @@ module.exports.handler = async (event) => {
             }
         },
         ReturnConsumedCapacity: "TOTAL",
-        TableName: process.env.EXPENSE_TABLE_NAME
+        TableName: process.env.CATEGORY_TABLE_NAME
     }
-    console.log({
-        date,
-        amount,
-        reciept,
-        categoryId,
-        userId
-    })
+
     return dynamodb.putItem(params).promise()
         .then(data => {
             return {
-                date,
-                amount,
-                reciept,
-                categoryId,
-                userId
+                name,
+                userId,
+                isCreatedByUser
             }
         })
         .catch(err => {
