@@ -34,39 +34,12 @@ custom:
         dataSource: createExpenseFunction
         request: false
         response: false
-      - type: Mutation
-        field: createCategory
-        dataSource: createCategoryFunction
-        request: false
-        response: false
-      - type: Mutation
-        field: imageText
-        dataSource: imageTextFunction
-        request: false
-        response: false
-      - type: Query
-        field: getTodos
-        dataSource: getExpenseFunction
-        request: false
-        response: false  
     
     dataSources:        
       - type: AWS_LAMBDA
         name: createExpenseFunction
         config:
-          functionName: createExpense
-      - type: AWS_LAMBDA
-        name: createCategoryFunction
-        config:
-          functionName: createCategory
-      - type: AWS_LAMBDA
-        name: getExpenseFunction
-        config:
-          functionName: getExpense    
-      - type: AWS_LAMBDA
-        name: imageTextFunction
-        config:
-          functionName: imageText    
+          functionName: createExpense    
                  
 
 functions: 
@@ -74,16 +47,6 @@ functions:
     handler: functions/createExpense.handler
     environment:
       EXPENSE_TABLE_NAME: !Ref ExpenseTable
-  createCategory:
-    handler: functions/createCategory.handler
-    environment:
-      EXPENSE_TABLE_NAME: !Ref ExpenseTable
-  getExpense:
-    handler: functions/getExpense.handler
-    environment:
-      CATEGORY_TABLE_NAME: !Ref CategoryTable
-  imageText:
-    handler: imageText.handler
 
 resources:
   Resources:

@@ -6,32 +6,6 @@ schema {
 type Query {
     getTodos: [Get!]!
 }
-
-
-
-type Mutation {
-    createExpense( date: String, amount: Int!, reciept: String!, categoryId: String!, userId: String!): Save
-    createCategory( name: String!, userId: String!, isCreatedByUser: String!): SaveCategory
-    imageText(bucket: String!,key: String!): ImageText
-
-}
-
-
-type Save {
-    date: String
-    amount: Int
-    reciept: String
-    categoryId: String
-    userId: String
-}
-type SaveCategory {
-    name: String
-    userId: Int
-    isCreatedByUser: String
-}
-type ImageText {
-    total: String!
-}
 type Get {
     date: String!
     amount: Int!
@@ -40,3 +14,17 @@ type Get {
     userId: String!
 }
 
+
+
+type Mutation {
+    createExpense( date: String, amount: Int!, reciept: String!, categoryName: String!, userId: String!): Save
+}
+
+
+type Save {
+    date: String
+    amount: Int
+    reciept: String
+    categoryName: String
+    userId: String
+}

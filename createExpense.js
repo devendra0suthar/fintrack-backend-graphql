@@ -8,7 +8,7 @@ module.exports.handler = async (event) => {
     const reciept = event.arguments.reciept
     const date = event.arguments.date
     const amount = event.arguments.amount
-    const categoryId = event.arguments.categoryId
+    const categoryName = event.arguments.categoryName
     const userId = event.arguments.userId
     const createdAt = Date()
     const params = {
@@ -25,8 +25,8 @@ module.exports.handler = async (event) => {
             "reciept": {
                 S: reciept
             },
-            "categoryId": {
-                S: categoryId
+            "categoryName": {
+                S: categoryName
             },
             "userId": {
                 S: userId
@@ -42,7 +42,7 @@ module.exports.handler = async (event) => {
         date,
         amount,
         reciept,
-        categoryId,
+        categoryName,
         userId
     })
     return dynamodb.putItem(params).promise()
@@ -51,7 +51,7 @@ module.exports.handler = async (event) => {
                 date,
                 amount,
                 reciept,
-                categoryId,
+                categoryName,
                 userId
             }
         })
